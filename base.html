@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+{% load extra_tags %}
+{% load humanize %}
+{% load bootstrap4 %}
+{% load sorting_tags %}
+{% load query_parameters %}
+
+<html lang="en">
+<head class="d-print-none">
+    <meta charset="UTF-8">
+    <title>Exalted</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'site.css' %}" />
+    <link href="/static/open-iconic-master/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+    {% block head %}
+    {% endblock head %}
+</head>
+<body>
+    <div class="container main">
+        {% for message in messages %}
+        {% bootstrap_alert message alert_type='success' %}
+        {% endfor %}
+    </div>
+    <nav class="d-display-none d-print-none fixed-top nav col-sm navbar navbar-expand-md navbar-light base mw-40">
+                    <ul class="nav nav-pills base">
+                        {% with request.session.charmlistfilter as querystring %}
+                        <li class="nav-item base"><h5><a class="nav-link" href="{% url 'charms' %}?{{ querystring }}">Charms</a></h5></li>
+                        <li class="nav-item base"><h5><a class="nav-link" href="{% url 'characters' %}">Characters</a></h5></li>
+                        <li class="nav-item base"><h5><a class="nav-link" href="{% url 'artifacts' %}">Artifacts</a></h5></li>
+                        <li class="nav-item base"><h5><a class="nav-link" href="{% url 'charmtree' %}?{{ querystring }}">Charmtrees</a></h5></li>
+                        <li class="nav-item base"><h5><a class="nav-link" href="{% url 'charmlist' %}?{{ querystring }}">Print Charms</a></h5></li>
+                        <li class="nav-item base"><h5><a class="nav-link" href="{% url 'other' %}">Other</a></h5></li>
+                        {% block menu-inline %} {% endblock menu-inline %}
+                        {% endwith %}
+                    </ul>
+            {% block top_panel %}
+            {% endblock top_panel%}
+    </nav>
+
+    <div class="col-sm mt-5">
+    {% block content %}
+
+    {% endblock content %}
+
+    </div>
+{% block sidebar %}{% endblock sidebar %}
+<div class="container">
+    {% block rightsidebar %}
+    <div class="wrapper">
+            <div id="sidebar" class="well">
+
+            </div><!--well -->
+          </div><!--span-->
+        {% endblock rightsidebar%}
+</div>
+</body>
+<script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        crossorigin = "anonymous">
+</script>
+
+{% bootstrap_javascript %}
+<script src="{% static 'site.js' %}"></script>
+</html>
